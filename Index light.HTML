@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Ember Kitchen — Modern Thai Cuisine</title>
+
+  <!-- ===== CUSTOMIZE HERE ===== -->
+  <style>
+    :root {
+      --color-accent:  #b85c2a;
+      --color-bg:      #faf7f2;
+      --color-surface: #ffffff;
+      --color-dark:    #1a1208;
+      --color-mid:     #f0ebe0;
+      --color-muted:   #8c7b65;
+      --font-display:  'Playfair Display', serif;
+      --font-body:     'Jost', sans-serif;
+    }
+  </style>
+  <!-- ============================ -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-bg);
+      color: var(--color-dark);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 3rem;
+      background: rgba(250,247,242,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(184,92,42,0.12);
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.3rem; color: var(--color-dark);
+    }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+
+    .nav-links a {
+      font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--color-muted); text-decoration: none; transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--color-accent); }
+
+    .nav-cta {
+      font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--color-surface); background: var(--color-accent);
+      border: none; padding: 0.6rem 1.4rem; cursor: pointer;
+      font-family: var(--font-body); font-weight: 500; transition: opacity 0.2s;
+    }
+
+    .nav-cta:hover { opacity: 0.85; }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; padding: 8rem 3rem 4rem;
+      gap: 4rem; max-width: 1200px; margin: 0 auto;
+    }
+
+    .hero-left { }
+
+    .hero-eyebrow {
+      font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--color-accent); margin-bottom: 1.2rem;
+      display: flex; align-items: center; gap: 0.8rem;
+    }
+
+    .hero-eyebrow::after {
+      content: ''; width: 2rem; height: 1px; background: var(--color-accent); opacity: 0.5;
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 700; line-height: 1.1;
+      color: var(--color-dark); margin-bottom: 1.5rem;
+    }
+
+    .hero h1 em {
+      font-style: italic; color: var(--color-accent); font-weight: 400;
+    }
+
+    .hero-sub {
+      font-size: 1rem; color: var(--color-muted);
+      line-height: 1.8; margin-bottom: 2.5rem; max-width: 380px;
+    }
+
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .btn-accent {
+      background: var(--color-accent); color: #fff;
+      border: none; padding: 0.9rem 2rem;
+      font-family: var(--font-body); font-size: 0.82rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      font-weight: 500; cursor: pointer; transition: opacity 0.2s;
+    }
+
+    .btn-accent:hover { opacity: 0.85; }
+
+    .btn-outline {
+      background: transparent; color: var(--color-dark);
+      border: 1px solid rgba(26,18,8,0.2);
+      padding: 0.9rem 2rem;
+      font-family: var(--font-body); font-size: 0.82rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      cursor: pointer; transition: border-color 0.2s;
+    }
+
+    .btn-outline:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+    .hero-right {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    }
+
+    .hero-card {
+      background: var(--color-surface);
+      border: 1px solid rgba(184,92,42,0.1);
+      padding: 1.5rem 1.25rem;
+      display: flex; flex-direction: column; gap: 0.5rem;
+    }
+
+    .hero-card:nth-child(2) { margin-top: 2rem; }
+    .hero-card:nth-child(4) { margin-top: -2rem; }
+
+    .hero-card-emoji { font-size: 1.8rem; }
+
+    .hero-card-name {
+      font-family: var(--font-display); font-size: 1rem; font-weight: 700;
+    }
+
+    .hero-card-price { font-size: 0.82rem; color: var(--color-accent); font-weight: 500; }
+
+    /* ─── STATS ─── */
+    .stats {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      background: var(--color-accent); max-width: 100%;
+    }
+
+    .stat {
+      padding: 2.5rem 2rem; text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .stat:last-child { border-right: none; }
+
+    .stat-num {
+      font-family: var(--font-display); font-size: 2.5rem; font-weight: 700;
+      color: #fff; line-height: 1; margin-bottom: 0.4rem;
+    }
+
+    .stat-label {
+      font-size: 0.72rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(255,255,255,0.65);
+    }
+
+    /* ─── SECTION ─── */
+    section { padding: 6rem 3rem; max-width: 1100px; margin: 0 auto; }
+
+    .eyebrow {
+      font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--color-accent); margin-bottom: 0.6rem;
+    }
+
+    .sec-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 700; line-height: 1.15; margin-bottom: 3rem;
+    }
+
+    /* ─── MENU ─── */
+    .menu-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem;
+    }
+
+    .menu-card {
+      background: var(--color-surface);
+      border: 1px solid rgba(184,92,42,0.1);
+      padding: 1.5rem; transition: box-shadow 0.25s, transform 0.25s;
+    }
+
+    .menu-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(184,92,42,0.08); }
+
+    .menu-emoji { font-size: 2.2rem; margin-bottom: 1rem; display: block; }
+
+    .menu-tag {
+      display: inline-block; font-size: 0.62rem; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 2px 8px;
+      background: rgba(184,92,42,0.1); color: var(--color-accent);
+      margin-bottom: 0.6rem;
+    }
+
+    .menu-name {
+      font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem;
+    }
+
+    .menu-desc { font-size: 0.82rem; color: var(--color-muted); line-height: 1.7; margin-bottom: 1rem; }
+    .menu-price { font-size: 0.85rem; color: var(--color-accent); font-weight: 500; letter-spacing: 0.05em; }
+
+    /* ─── INFO ─── */
+    .info-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .info-blocks { display: flex; flex-direction: column; gap: 2rem; }
+
+    .info-block { padding-left: 1.5rem; border-left: 2px solid rgba(184,92,42,0.25); }
+
+    .info-block-label {
+      font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--color-accent); margin-bottom: 0.5rem;
+    }
+
+    .info-block-text { font-size: 0.92rem; line-height: 1.8; color: var(--color-muted); }
+    .info-block-text strong { color: var(--color-dark); font-weight: 500; }
+
+    .map-box {
+      background: var(--color-mid);
+      border: 1px solid rgba(184,92,42,0.12);
+      aspect-ratio: 4/3;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 0.5rem;
+      color: var(--color-muted); font-size: 0.8rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      cursor: pointer; transition: border-color 0.2s;
+    }
+
+    .map-box:hover { border-color: var(--color-accent); }
+    .map-box span { font-size: 2rem; }
+
+    /* ─── REVIEWS ─── */
+    .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+
+    .review-card {
+      background: var(--color-surface);
+      border: 1px solid rgba(184,92,42,0.08);
+      padding: 2rem; transition: border-color 0.25s;
+    }
+
+    .review-card:hover { border-color: rgba(184,92,42,0.3); }
+
+    .review-stars { color: var(--color-accent); font-size: 0.85rem; margin-bottom: 1rem; }
+
+    .review-text {
+      font-family: var(--font-display); font-style: italic;
+      font-size: 1rem; line-height: 1.7; color: var(--color-dark); margin-bottom: 1.2rem;
+    }
+
+    .reviewer { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-muted); }
+
+    /* ─── CTA ─── */
+    .cta-section {
+      text-align: center; padding: 6rem 2rem;
+      background: var(--color-mid);
+      border-top: 1px solid rgba(184,92,42,0.1);
+    }
+
+    .cta-section .sec-title { margin-bottom: 1rem; }
+    .cta-section p { color: var(--color-muted); font-size: 0.95rem; margin-bottom: 2.5rem; line-height: 1.8; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: 2.5rem 3rem;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+      border-top: 1px solid rgba(184,92,42,0.1);
+    }
+
+    .footer-logo { font-family: var(--font-display); font-size: 1rem; color: var(--color-muted); }
+
+    .footer-links { display: flex; gap: 2rem; list-style: none; }
+
+    .footer-links a {
+      font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--color-muted); text-decoration: none; transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--color-accent); }
+
+    .footer-copy { font-size: 0.7rem; color: rgba(140,123,101,0.5); }
+
+    /* ─── ANIMATION ─── */
+    .fade-up {
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.25rem; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; padding: 6rem 1.25rem 3rem; gap: 2rem; }
+      .hero-right { display: none; }
+      section { padding: 4rem 1.25rem; }
+      .stats { grid-template-columns: 1fr; }
+      .stat { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.15); }
+      .info-layout { grid-template-columns: 1fr; gap: 2rem; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">The Ember Kitchen</div>
+    <ul class="nav-links">
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="nav-cta" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Reserve a Table</button>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Open Daily 10:00 AM – 10:00 PM</div>
+      <h1>Authentic Thai<br><em>in the Heart</em><br>of the City</h1>
+      <p class="hero-sub">Familiar flavors crafted with fresh ingredients every day. A warm atmosphere that feels just like home.</p>
+      <div class="hero-btns">
+        <button class="btn-accent" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Reserve a Table</button>
+        <button class="btn-outline" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">View Menu</button>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-card">
+        <span class="hero-card-emoji">🍜</span>
+        <div class="hero-card-name">Boat Noodles</div>
+        <div class="hero-card-price">฿89</div>
+      </div>
+      <div class="hero-card">
+        <span class="hero-card-emoji">🥩</span>
+        <div class="hero-card-name">Salt-Grilled Wagyu</div>
+        <div class="hero-card-price">฿320</div>
+      </div>
+      <div class="hero-card">
+        <span class="hero-card-emoji">🌿</span>
+        <div class="hero-card-name">Green Curry</div>
+        <div class="hero-card-price">฿145</div>
+      </div>
+      <div class="hero-card">
+        <span class="hero-card-emoji">🍵</span>
+        <div class="hero-card-name">Thai Iced Tea</div>
+        <div class="hero-card-price">฿65</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat fade-up">
+      <div class="stat-num">12+</div>
+      <div class="stat-label">Years of Experience</div>
+    </div>
+    <div class="stat fade-up" style="transition-delay:0.1s">
+      <div class="stat-num">4.9★</div>
+      <div class="stat-label">Average Rating</div>
+    </div>
+    <div class="stat fade-up" style="transition-delay:0.2s">
+      <div class="stat-num">200+</div>
+      <div class="stat-label">Menu Items</div>
+    </div>
+  </div>
+
+  <!-- MENU -->
+  <section id="menu">
+    <div class="eyebrow fade-up">Our Menu</div>
+    <div class="sec-title fade-up">Featured Dishes This Season</div>
+    <div class="menu-grid">
+      <div class="menu-card fade-up">
+        <span class="menu-emoji">🍜</span>
+        <div class="menu-tag">bestseller</div>
+        <div class="menu-name">Boat Noodles</div>
+        <div class="menu-desc">Rich, slow-cooked broth simmered for 8 hours, served with tender meat and crispy fish balls.</div>
+        <div class="menu-price">฿89</div>
+      </div>
+      <div class="menu-card fade-up" style="transition-delay:0.08s">
+        <span class="menu-emoji">🥩</span>
+        <div class="menu-tag">premium</div>
+        <div class="menu-name">Salt-Grilled Wagyu</div>
+        <div class="menu-desc">Premium Wagyu beef grilled over charcoal, served with our signature dipping sauce.</div>
+        <div class="menu-price">฿320</div>
+      </div>
+      <div class="menu-card fade-up" style="transition-delay:0.16s">
+        <span class="menu-emoji">🌿</span>
+        <div class="menu-tag">vegetarian</div>
+        <div class="menu-name">Green Curry Tofu</div>
+        <div class="menu-desc">Fresh coconut milk curry with organic vegetables grown in our own garden.</div>
+        <div class="menu-price">฿145</div>
+      </div>
+      <div class="menu-card fade-up" style="transition-delay:0.24s">
+        <span class="menu-emoji">🍵</span>
+        <div class="menu-tag">signature</div>
+        <div class="menu-name">Thai Iced Tea</div>
+        <div class="menu-desc">Traditional pulled tea, perfectly sweet with just the right amount of condensed milk.</div>
+        <div class="menu-price">฿65</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="info-layout">
+      <div>
+        <div class="eyebrow fade-up">Find Us</div>
+        <div class="sec-title fade-up">Our Location</div>
+        <div class="info-blocks">
+          <div class="info-block fade-up">
+            <div class="info-block-label">Address</div>
+            <div class="info-block-text"><strong>123 Silom Road</strong> Silom, Bang Rak<br>Bangkok 10500</div>
+          </div>
+          <div class="info-block fade-up">
+            <div class="info-block-label">Opening Hours</div>
+            <div class="info-block-text">
+              <strong>Mon – Fri</strong> 10:00 AM – 10:00 PM<br>
+              <strong>Sat – Sun</strong> 9:00 AM – 11:00 PM
+            </div>
+          </div>
+          <div class="info-block fade-up">
+            <div class="info-block-label">Contact</div>
+            <div class="info-block-text">
+              <strong>02-XXX-XXXX</strong><br>LINE: @emberkitchen<br>Instagram: @ember.kitchen
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="map-box fade-up" onclick="window.open('https://maps.google.com','_blank')">
+        <span>📍</span>
+        <div>View on Google Maps</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section id="reviews" style="padding-top:0">
+    <div class="eyebrow fade-up">Customer Reviews</div>
+    <div class="sec-title fade-up">What Our Guests Say</div>
+    <div class="reviews-grid">
+      <div class="review-card fade-up">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"The food is incredible and the atmosphere is warm. We keep coming back and have never been disappointed."</div>
+        <div class="reviewer">— Napa W.</div>
+      </div>
+      <div class="review-card fade-up" style="transition-delay:0.1s">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Best Thai iced tea I've ever had. The staff is incredibly friendly and attentive."</div>
+        <div class="reviewer">— Kitti P.</div>
+      </div>
+      <div class="review-card fade-up" style="transition-delay:0.2s">
+        <div class="review-stars">★★★★☆</div>
+        <div class="review-text">"Great variety on the menu, very reasonable prices, and perfect for a family dinner."</div>
+        <div class="reviewer">— Somjai R.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-section" id="booking">
+    <div style="max-width:500px;margin:0 auto">
+      <div class="eyebrow fade-up" style="margin-bottom:0.8rem">Reservations</div>
+      <div class="sec-title fade-up">Ready to Join Us?</div>
+      <p class="fade-up">Book in advance and enjoy 10% off for groups of 4 or more.</p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap" class="fade-up">
+        <button class="btn-accent" style="font-size:0.9rem;padding:1rem 2.2rem">Book Online</button>
+        <button class="btn-outline" style="font-size:0.9rem;padding:1rem 2.2rem">Call to Reserve</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">The Ember Kitchen</div>
+    <ul class="footer-links">
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+    </ul>
+    <div class="footer-copy">© 2025 The Ember Kitchen. All rights reserved.</div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
